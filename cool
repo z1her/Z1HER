@@ -1,0 +1,87 @@
+import PySimpleGUI as sg
+
+# layout
+layout = [
+    [sg.Text("Hello, would you like to buy bitcoin")],
+    [sg.Button("Yes")],
+    [sg.Button("No")],
+]
+window = sg.Window("Do you want to enter the BitcoinBuyer?", size=(400, 200)).Layout(
+    layout
+)
+button, values = window.Read()
+
+if button == "Yes":
+    sg.Popup("Great, click ok and continue")
+else:
+    sg.Popup("Thank you, good bye")
+
+
+class BitcoinBuyer:
+    def __init__(self):
+        self.frame1 = [
+            [sg.Text("Name: ", size=(12, 1)), (sg.Input(size=(20, 1), key="name"))],
+            [
+                sg.Text("Surname: ", size=(10, 1)),
+                (sg.Input(size=(20, 1), key="surname")),
+            ],
+            [
+                sg.Text("Year of birth: ", size=(20, 1)),
+                sg.Input(size=(7, 1), key="age"),
+                sg.Combo(
+                    [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "Avgust",
+                        "September",
+                        "October",
+                        "November",
+                        "December",
+                    ],
+                    size=(12, 1),
+                    key="year of birth",
+                ),
+            ],
+            [
+                sg.Text("Method of payment: ", size=(20, 1)),
+                sg.Radio("Visa", "R", size=(5, 1), key="visa"),
+                sg.Radio("Paypal", "R", size=(7, 1), key="paypal"),
+                sg.Radio("MasterCard", "R", size=(10, 1), key="mastercard"),
+            ],
+            [
+                sg.Text("How much bitcoindo you want to buy?", size=(25, 1)),
+                sg.Slider((0, 200), orientation="h", size=(40, 8), key="slider"),
+            ],
+        ]
+
+        self.layout = [
+            [sg.Frame("BitcoinBuyer", self.frame1, title_color="Blue")],
+            [
+                sg.Button("Buy", size=(12, 1), key="buy"),
+                sg.Button("Exit", size=(12, 1), key="exit"),
+            ],
+            [sg.Text("")],
+        ]
+
+        self.window = sg.Window("BitcoinBuyer").Layout(self.layout).Finalize()
+
+        while True:
+            event, values = self.window.Read()
+
+            if event == "buy":
+                sg.Popup("You bought", values["slider"], "bitcoin(s)")
+            # self.addstudent(values)
+            elif event == "exit":
+                sg.Popup("Thank you, good bye")
+            break
+
+        self.window.close()
+
+
+if __name__ == "__main__":
+    BitcoinBuyer()
